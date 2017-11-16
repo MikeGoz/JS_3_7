@@ -1,0 +1,70 @@
+/* Task 3.6 */
+
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+body {
+  margin: 10px;
+  text-align: center;
+  font-family: 'VT323', monospace;
+  background-color: #4D9BC2;
+}
+.stopwatch {
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 400px;
+  background-color:black;
+  color:white;
+  font-size: 100px;
+  border-radius: 10px;
+}
+.button {
+  background-color: #032C79;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 30px;
+  margin: 4px 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 9px #646464;
+}
+.button:active {
+  color: #11A3F8;
+  box-shadow: 0 3px #646464;
+  transform: translateY(3px);
+}
+#results {
+  list-style:none;
+  background-color: black;
+  color:white;
+  width: 360px;
+  margin: 0 auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  font-size: 30px;
+}
+#start {
+  color: #3EFF04;
+}
+#stop {
+  color: #FF0443;
+}
+#catch, #catchClear {
+  margin-top: 30px;
+  margin-left: 2px;
+  font-size: 20px;
+  background-color: #032C79;
+}
+#catch {
+  color: #3EFF04;
+}
+img {
+  margin-bottom: 0;
+}
+li {
+  margin: 3px;
+  margin-left: -30px;
+}
