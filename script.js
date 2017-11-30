@@ -1,89 +1,107 @@
 // Task 3.7
 
 class Stopwatch extends React.Component {
-  constructor(display) {
-    super();  
-    this.running = false;
-    this.display = display;
-    this.reset();
-    this.print(this.times);
+	
+	constructor() {
+		super();
+		this.state = {
+			running: false,		
+			lapList: [],
+			
+			times: {
+				minutes: 0,
+				seconds: 0,
+				miliseconds: 0
+			},
+		};
+	}
+	// ------------- controls -----------------
+	start() {
+		if (!this.state.running){
+			this.setState({running: true});
+			this.watch = setInterval(() => this.step(), 10);
+		}
+	}
+	stop() {
+		this.setState({running: false});
+		clearInterval(this.watch);
+	}
+	clear() {
+		this.setState({
+			running: false,
+			miliseconds: this.state.times.miliseconds = 0,
+			seconds: this.state.times.seconds = 0,
+			minutes: this.state.times.minutes = 0
+		});
+		clearInterval(this.watch);
   }
-  reset() { 
-    this.times = {
-      minutes: 0,
-      seconds: 0,
-      miliseconds: 0
-    };
-  }
-  print() { 
-    this.display.innerText = this.format(this.times);
-  }
-  format(times) { 
-    return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(Math.floor(times.miliseconds))}`;
-  }
-  start() {
-    if (!this.running) {
-      this.running = true;
-      this.watch = setInterval(() => this.step(), 10);
-    }
-  }
-  step() {
-    if (!this.running) return;
-    this.calculate();
-    this.print();
-  }
-  calculate() {
-    this.times.miliseconds += 1;
-    if (this.times.miliseconds >= 100) {
-      this.times.seconds += 1;
-      this.times.miliseconds = 0;
-    }
-    if (this.times.seconds >= 60) {
-      this.times.minutes += 1;
-      this.times.seconds = 0;
-    }
-  }
-  stop() {
-    this.running = false;
-    clearInterval(this.watch);
-  }
-  clear() { 
-    this.stop();
-    this.reset();
-    this.print(); 
-  }
-  catch() { 
-    const lapList = document.getElementById('results');
-    const newLap = document.createElement('li');
-    const newLapArray = lapList.getElementsByTagName('li');
-        
-    newLap.innerHTML = `${newLapArray.length + 1} lap : ${this.format(this.times)}`;
-    lapList.appendChild(newLap);
-    //console.log(newLapArray);
-  }
-  catchClear() {
-    const arrayToClear = document.getElementById('results');
-    arrayToClear.innerHTML = '';
-    }
+	catch() {
+		this.setState({
+			lapList: this.state.lapList.concat([this.format(this.state.times)])
+			});
+			console.log(this.state.lapList)
+		}
+	catchClear() {
+		this.setState({
+			lapList: []
+		});
+	}
+	// ----------------------------------------			
+	step() {
+		if (!this.state.running) return;
+		this.calculate();
+	}
+	calculate() {	
+		let timesCalc = {
+			miliseconds: this.state.times.miliseconds,
+			seconds: this.state.times.seconds,
+			minutes: this.state.times.minutes
+		};
+	 	timesCalc.miliseconds += 1;
+	 
+		if (timesCalc.miliseconds >= 100) {
+			timesCalc.seconds += 1;
+			timesCalc.miliseconds = 0;
+		}
+		if (timesCalc.seconds >= 60) {
+			timesCalc.minutes += 1;
+			timesCalc.seconds = 0;
+		}
+	 	this.setState({times: timesCalc});
+	}
+	format(times) {
+		return `${this.pad0(times.minutes)} : ${this.pad0(times.seconds)} : ${this.pad0(times.miliseconds)}`;
+	}
+	pad0(value) {
+		let result = value.toString();
+		if (result.length <2){
+			result = '0' + result;
+		}
+		return result;
+	}
+	// --------------------------------------
+	render() {
+		const lapArray = this.state.lapList.map((lapTime) => <li key={lapTime}>{lapTime}</li>);
+		return (
+			<div className="stopwatch">
+				<img src="img/stoper.jpg"  height="200" width="200"/>
+				<div id="timeControls">
+					<a onClick={() => this.start()} className="button" id="start">START</a>
+					<a onClick={() => this.stop()} className="button" id="stop">STOP</a>
+					<a onClick={() => this.clear()} className="button" id="clear">CLEAR</a>
+				</div>
+				<div id="screen">{this.format(this.state.times)}</div>
+				<div id="catchControls">
+					<a onClick={() => this.catch()} className="button" id="catch">CATCH LAP TIME</a>
+					<a onClick={() => this.catchClear()} className="button" id="catchClear">CLEAR LAP TIME</a>
+				</div>
+				<ul id="results">
+					{lapArray}
+				</ul>
+			</div>
+		);
+	}
 }
-function pad0(value) {
-  let result = value.toString();
-  if (result.length < 2) {
-    result = '0' + result;
-  }
-  return result; 
-}
-
-const stopwatch = new Stopwatch(
-  document.querySelector('.stopwatch'));
-
-const startButton = document.getElementById('start');
-startButton.addEventListener('click', () => stopwatch.start());
-const stopButton = document.getElementById('stop');
-stopButton.addEventListener('click', () => stopwatch.stop());  
-const clearButton = document.getElementById('clear');
-clearButton.addEventListener('click', () => stopwatch.clear());
-const catchButton = document.getElementById('catch');
-catchButton.addEventListener('click', () => stopwatch.catch());
-const catchClearButton = document.getElementById('catchClear');
-catchClearButton.addEventListener('click', () => stopwatch.catchClear());
+ReactDOM.render(<Stopwatch/>, document.getElementById('stopwatch_1'));
+ReactDOM.render(<Stopwatch/>, document.getElementById('stopwatch_2'));
+ReactDOM.render(<Stopwatch/>, document.getElementById('stopwatch_3'));

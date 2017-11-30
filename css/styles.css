@@ -1,20 +1,32 @@
-/* Task 3.6 */
+/* Task 3.7 */
 
 @import url('https://fonts.googleapis.com/css?family=VT323');
 
 body {
-  margin: 10px;
   text-align: center;
   font-family: 'VT323', monospace;
-  background-color: #4D9BC2;
+  background-color: rgb(12, 109, 158);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
+  
 .stopwatch {
+  width:400px;
+  margin-top: 10vh;
+  margin-left: 40px;
+  background-color: #4D9BC2;
+  border-radius: 10px;
+  padding-bottom: 40px;
+}
+#screen {
   margin: 0 auto;
   margin-top: 30px;
-  width: 400px;
+  width: 300px;
   background-color:black;
   color:white;
-  font-size: 100px;
+  font-size: 50px;
   border-radius: 10px;
 }
 .button {
@@ -40,7 +52,7 @@ body {
   list-style:none;
   background-color: black;
   color:white;
-  width: 360px;
+  width: 260px;
   margin: 0 auto;
   margin-top: 30px;
   border-radius: 10px;
@@ -54,7 +66,7 @@ body {
 }
 #catch, #catchClear {
   margin-top: 30px;
-  margin-left: 2px;
+  margin-left: 6px;
   font-size: 20px;
   background-color: #032C79;
 }
